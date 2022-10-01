@@ -1,28 +1,18 @@
 import { createStore } from "vuex";
-// 创建仓库
-// vue2.0 new Vuex.Store({})
-// vue3.0 createStore({})
+import createPersistedstate from "vuex-persistedstate";
+import cart from "./modules/cart";
+import category from "./modules/category";
+import user from "./modules/user";
 export default createStore({
-  state: {
-    name: "zs",
+  modules: {
+    cart,
+    category,
+    user,
   },
-  getters: {
-    newName(state) {
-      return state.name + "~~~~";
-    },
-  },
-  mutations: {
-    updateName(state) {
-      state.name = "ks";
-    },
-  },
-  actions: {
-    upName(ctx) {
-      // 发请求
-      setTimeout(() => {
-        ctx.commit("updateName");
-      }, 1000);
-    },
-  },
-  modules: {},
+  plugins: [
+    createPersistedstate({
+      key: "erabbit-client-pc-store",
+      paths: ["user", "cart"],
+    }),
+  ],
 });
